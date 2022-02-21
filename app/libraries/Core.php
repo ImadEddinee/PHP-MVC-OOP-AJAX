@@ -16,7 +16,7 @@ class Core{
             unset($url[0]);
         }
         //Require the controller
-        require_once '../app/controllers/'.$this->current_controller;
+        require_once '../app/controllers/'.$this->current_controller.".php";
         //Instantiate the controller
         $this->current_controller = new $this->current_controller;
         if (isset($url[1])){
