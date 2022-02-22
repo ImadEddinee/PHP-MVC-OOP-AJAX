@@ -4,5 +4,3 @@ require_once '../app/bootstrap.php';
 
 //Init the core class
 $App = new Core();
-
-echo SITENAME;

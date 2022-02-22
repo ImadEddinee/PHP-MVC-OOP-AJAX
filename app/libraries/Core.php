@@ -11,9 +11,11 @@ class Core{
     public function __construct(){
         $url = $this->get_url();
         //check if the controller requested exists
-        if (file_exists('../app/controllers/'.ucwords($url[0]).'php')){
-            $this->current_controller = ucwords($url[0]);
-            unset($url[0]);
+        if (isset($url[0])){
+            if (file_exists('../app/controllers/'.ucwords($url[0]).'php')){
+                $this->current_controller = ucwords($url[0]);
+                unset($url[0]);
+            }
         }
         //Require the controller
         require_once '../app/controllers/'.$this->current_controller.".php";
