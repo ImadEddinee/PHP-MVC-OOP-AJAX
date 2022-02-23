@@ -1,1 +1,3 @@
 <?php
+?>
+The welcome Page
