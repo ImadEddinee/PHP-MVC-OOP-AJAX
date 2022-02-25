@@ -1,3 +1,1 @@
-<?php
-?>
 The welcome Page

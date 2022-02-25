@@ -12,7 +12,7 @@ class Core{
         $url = $this->get_url();
         //check if the controller requested exists
         if (isset($url[0])){
-            if (file_exists('../app/controllers/'.ucwords($url[0]).'php')){
+            if (file_exists('../app/controllers/'.ucwords($url[0]).'.php')){
                 $this->current_controller = ucwords($url[0]);
                 unset($url[0]);
             }
