@@ -11,4 +11,3 @@ $path = str_replace($_SERVER['DOCUMENT_ROOT'],"",$path);
 $path = str_replace("/app/config","",$path);
 define('APPROOT',dirname(dirname(__FILE__))).
 define('ROOT',str_replace("app/core","public",$path));
-define('ASSETS',str_replace("app/core","public/assets",$path));

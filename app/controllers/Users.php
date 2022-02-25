@@ -14,7 +14,7 @@ class Users extends Controller{
 
     public function register(){
         // Check if the request is comming from a form
-        if ($_SERVER['REQUEST_METHOD']  = 'POST'){
+        if ($_SERVER['REQUEST_METHOD']  == 'POST'){
             // Proccess the data
         }else{
             // Init Form data
@@ -35,10 +35,19 @@ class Users extends Controller{
     }
 
     public function login(){
-        $data = [
-            'title' => "Login"
-        ];
-        // Load the Login form
-        $this->view("users/login",$data);
+        // Check if the request is comming from a form
+        if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+            //Process the data
+        }else{
+            $data = [
+                'title' => "Login",
+                'email' => "",
+                'email_error' => "",
+                'password' => "",
+                'password_error' => ""
+            ];
+            // Load the Login form
+            $this->view("users/login",$data);
+        }
     }
 }
