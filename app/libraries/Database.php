@@ -30,8 +30,8 @@ class Database{
         $this->stmt = $this->connection->prepare($query);
     }
     //Execute the Statement
-    public function execute($email){
-        return $this->stmt->execute([$email]);
+    public function execute(...$data){
+        return $this->stmt->execute($data);
     }
     // Get the resultSet
     public function resultSet(){
