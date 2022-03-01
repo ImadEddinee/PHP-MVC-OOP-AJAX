@@ -12,13 +12,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<?= ROOT."Pages/features" ?>">Features</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= ROOT."Users/login" ?>">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= ROOT."Users/register" ?>">Register</a>
-                </li>
+                <?php if (!isset($_SESSION['user_id'])) : ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= ROOT."Users/login" ?>">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= ROOT."Users/register" ?>">Register</a>
+                    </li>
+                <?php endif;?>
             </ul>
-        </div
+        </div>
     </div>
 </nav>

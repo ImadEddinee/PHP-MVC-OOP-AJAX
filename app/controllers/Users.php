@@ -22,8 +22,8 @@ class Users extends Controller{
             $_POST = filter_input_array(INPUT_POST,FILTER_SANITIZE_STRING);
             $data = [
                 'title' => "Register",
-                'name' => trim($_POST['name']),
-                'name_error' => "",
+                'username' => trim($_POST['username']),
+                'username_error' => "",
                 'email' => trim($_POST['email']),
                 'email_error' => "",
                 "password" => trim($_POST['password']),
@@ -32,8 +32,11 @@ class Users extends Controller{
                 'confirm_password_error' => ""
             ];
             //Validate the name
-            if (strlen($data['name']) < 5 || strlen($data['name']) > 15){
+            if (strlen($data['username']) < 5 || strlen($data['username']) > 15){
                 $data['name_error'] = "The name should contain between 5 and 15 characters";
+            }else if ($this->userModel->findUserByUsername($data['username'])){
+                // Check if the username is unique
+                $data['username_error'] = "Username is already in use !";
             }
             //Validate the email
             if (!filter_var($data['email'],FILTER_VALIDATE_EMAIL)){
@@ -53,9 +56,17 @@ class Users extends Controller{
                 $data['confirm_password_error'] = "Your passwords are not the same";
             }
             //Check if there is no errors
-            if (empty($data['name_error']) && empty($data['email_error'])
+            if (empty($data['username_error']) && empty($data['email_error'])
                 && empty($data['password_error']) && empty($data['confirm_password_error'])){
-                die("sucess");
+                // Hash the password
+                $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);
+                // Persiste the data in  database
+                if ($this->userModel->register($data)){
+                    flash("user_register","You are registered you can Log in");
+                    redirect("users/login");
+                }else{
+                    die("Something went wrong");
+                }
             }else{
                 $this->view("users/register",$data);
             }
@@ -63,8 +74,8 @@ class Users extends Controller{
             // Init Form data
             $data = [
                 'title' => "Register",
-                'name' => "",
-                'name_error' => "",
+                'username' => "",
+                'username_error' => "",
                 'email' => "",
                 'email_error' => "",
                 "password" => "",
@@ -84,6 +95,7 @@ class Users extends Controller{
             //Sanitize the form data
             $_POST = filter_input_array(INPUT_POST,FILTER_SANITIZE_STRING);
             $data = [
+                'title' => "Login Page",
                 'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
                 'email_error' => '',
@@ -97,11 +109,21 @@ class Users extends Controller{
             if (empty($data['password'])){
                 $data['password_error'] = "Please enter your password";
             }
+            //Check if the email exists
+            if (!$this->userModel->findUserByEmail($data['email'])){
+                $data['email_error'] = "Email is incorrect";
+            }
             //Check if therre is no errors
             if (empty($data['email_error']) && empty($data['password_error'])){
-                die("suceess");
+                $result = $this->userModel->login($data['email'],$data['password']);
+                if ($result){
+                    $this->createUserSession($result);
+                    redirect("pages/index");
+                }else{
+                    flash("user_login","Bad Credentials","alert alert-danger");
+                    redirect("users/login");
+                }
             }else{
-                $data['title'] = "Login Page";
                 $this->view("users/login",$data);
             }
         }else{
@@ -115,5 +137,10 @@ class Users extends Controller{
             // Load the Login form
             $this->view("users/login",$data);
         }
+    }
+    private function createUserSession($user){
+        $_SESSION['user_id'] = $user[0]->id;
+        $_SESSION['user_email'] = $user[0]->email;
+        $_SESSION['username'] = $user[0]->username;
     }
 }
