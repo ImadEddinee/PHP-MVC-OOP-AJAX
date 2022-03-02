@@ -1,8 +1,8 @@
-<div class="row">
+<div class="row mb-3">
     <div class="col-md-6 mx-auto">
         <div class="card card-body bg-light mt-5">
-            <h2 class="fw-light">Create An Account</h2>
-            <p class="fw-light">Please fill out this form to register with us</p>
+            <h2 class="fw-light mx-auto">Create An Account</h2>
+            <p class="fw-light mx-auto">Please fill out this form to register with us</p>
             <form action="<?= ROOT."/Users/register" ?>" method="POST">
                 <div class="mb-3">
                     <label for="name" class="form-label">Username: <sup>*</sup></label>
@@ -37,7 +37,7 @@
                         <input type="submit" value="Register" class="btn btn-success btn-block">
                     </div>
                     <div class="col">
-                        <a class="btn btn-light" href="<?= ROOT."Users/login" ?>">Have an account? Login</a>
+                        <a class="btn btn-light fw-light" href="<?= ROOT."Users/login" ?>">Have an account? Login</a>
                     </div>
                 </div>
             </form>

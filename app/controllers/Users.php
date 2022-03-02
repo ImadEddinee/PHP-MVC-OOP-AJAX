@@ -138,6 +138,60 @@ class Users extends Controller{
             $this->view("users/login",$data);
         }
     }
+    public function password(){
+        if ($_SERVER['REQUEST_METHOD'] == "GET"){
+            // Init form data
+            $data = [
+              'title' => 'Email Verification',
+                'email' => '',
+                'email_error' => ''
+            ];
+            $this->view("users/email_verification",$data);
+        }else{
+            // Sanitize data
+            $_POST = filter_input_array(INPUT_POST,FILTER_SANITIZE_STRING);
+            $data = [
+                'email' => trim($_POST['email']),
+                'email_error' => ''
+            ];
+            // Check if the email exists
+            if (!$this->userModel->findUserByEmail($data['email'])){
+                $data['email_error'] = "The email you entered is incorrect !";
+            }
+            // Check if there are no errors
+            if (empty($data['email_error'])){
+                flash("email_code","The email is sent successfully");
+                redirect("users/code");
+            }else{
+                $data['title'] = "Email Verification";
+                $this->view("users/email_verification",$data);
+            }
+        }
+    }
+    public function code(){
+        if ($_SERVER['REQUEST_METHOD'] == "GET"){
+            // Init data
+            $data = [
+                'title' => 'Code Verification',
+                'code' => '',
+                'code_error' => ''
+            ];
+            $this->view("users/code_verification",$data);
+        }else{
+            $code = $_POST['code'];
+            // Check if the code in a number
+            if (!filter_var($code,FILTER_VALIDATE_INT)){
+                $data['code_error'] = "Please enter a valid code ";
+            }
+            //Check if the code entered match the code sent
+            //Check if there are no errors
+            if (empty($data['code_error'])){
+
+            }else{
+                $this->view("users/code_verification",$data);
+            }
+        }
+    }
     private function createUserSession($user){
         $_SESSION['user_id'] = $user[0]->id;
         $_SESSION['user_email'] = $user[0]->email;

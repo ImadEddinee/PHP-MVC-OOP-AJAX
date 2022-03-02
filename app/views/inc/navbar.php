@@ -1,26 +1,38 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="<?= ROOT ?>"><?= SITENAME ?></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="<?= ROOT ?>">Home</a>
+                    <a class="nav-link <?= addClass(); ?> " href="<?= ROOT ."pages" ?>">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?= ROOT."Pages/features" ?>">Features</a>
+                    <a class="nav-link <?= addClass('pages/features'); ?>" href="<?= ROOT."pages/features" ?>">Features</a>
                 </li>
-                <?php if (!isset($_SESSION['user_id'])) : ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= ROOT."Users/login" ?>">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= ROOT."Users/register" ?>">Register</a>
-                    </li>
-                <?php endif;?>
             </ul>
+            <?php if (!isLoggedIn()) : ?>
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link <?= addClass('users/register'); ?>" href="<?= ROOT ."users/register" ?>">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= addClass('users/login'); ?>" href="<?= ROOT ."users/login" ?>">Login</a>
+                    </li>
+                </ul>
+            <?php else: ?>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Menu </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Déconnecter</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            <?php endif; ?>
         </div>
     </div>
 </nav>
