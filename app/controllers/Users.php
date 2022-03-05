@@ -117,7 +117,7 @@ class Users extends Controller{
             if (empty($data['email_error']) && empty($data['password_error'])){
                 $result = $this->userModel->login($data['email'],$data['password']);
                 if ($result){
-                    $this->createUserSession($result);
+                    createUserSession($result);
                     redirect("pages/index");
                 }else{
                     flash("user_login","Bad Credentials","alert alert-danger");
@@ -160,6 +160,12 @@ class Users extends Controller{
             }
             // Check if there are no errors
             if (empty($data['email_error'])){
+                // Store the email in session
+                $_SESSION['email'] = $data['email'];
+                // Generate and Store the code that that will be sent in the session
+                $this->generateCode();
+                // Send an email
+                $this->send_email();
                 flash("email_code","The email is sent successfully");
                 redirect("users/code");
             }else{
@@ -167,6 +173,40 @@ class Users extends Controller{
                 $this->view("users/email_verification",$data);
             }
         }
+    }
+    // Generate a random integer that contains 4 digits
+    private function generateCode(){
+        if (isset($_SESSION['code'])){
+            // Unset the previous code stored is session
+            unset($_SESSION['code']);
+        }
+        $code = rand(1000,9999);
+        $_SESSION['code'] = $code;
+    }
+    public function resend(){
+        // Generate the code
+        $this->generateCode();
+        $this->send_email();
+        flash("email_code","The email is sent successfully");
+        redirect("users/code");
+    }
+    private function send_email(){
+        $mail = new PHPMailer\PHPMailer\PHPMailer();
+        $mail->isSMTP();
+        $mail->SMTPAuth = "true";
+        $mail->SMTPSecure = 'ssl';
+        $mail->Host = 'smtp.gmail.com';
+        $mail->Port = '465';
+        $mail->Username = 'hajaliimadeddine@gmail.com';
+        $mail->Password = 'ensas2020';
+        try {
+            $mail->setFrom("hajaliimadeddine@gmail.com");
+        } catch (\PHPMailer\PHPMailer\Exception $e) {
+        }
+        $mail->Subject = 'Code de vérification';
+        $mail->Body = 'Votre code de vérification est : '.$_SESSION['code'];
+        $mail->addAddress($_SESSION['email']);
+        $mail->send();
     }
     public function code(){
         if ($_SERVER['REQUEST_METHOD'] == "GET"){
@@ -178,23 +218,59 @@ class Users extends Controller{
             ];
             $this->view("users/code_verification",$data);
         }else{
-            $code = $_POST['code'];
+            $data = [
+                'title' => 'Code Verification',
+                'code' => trim($_POST['code']),
+                'code_error' => ''
+            ];
             // Check if the code in a number
-            if (!filter_var($code,FILTER_VALIDATE_INT)){
+            if (!filter_var($data['code'],FILTER_VALIDATE_INT)){
                 $data['code_error'] = "Please enter a valid code ";
             }
             //Check if the code entered match the code sent
+            if (!($data['code'] == $_SESSION['code'])){
+                $data['code_error'] = "The code you entered is incorrect !";
+            }
             //Check if there are no errors
             if (empty($data['code_error'])){
-
+                redirect("users/reset");
             }else{
                 $this->view("users/code_verification",$data);
             }
         }
     }
-    private function createUserSession($user){
-        $_SESSION['user_id'] = $user[0]->id;
-        $_SESSION['user_email'] = $user[0]->email;
-        $_SESSION['username'] = $user[0]->username;
+    public function reset(){
+        if ($_SERVER['REQUEST_METHOD'] === "GET"){
+            //Init data
+            $data = [
+              'title' => "Reset Password",
+              'password' => '',
+              'password_error' => '',
+              'confirm_password' => '',
+              'confirm_password_error' => ''
+            ];
+            $this->view("users/reset_password",$data);
+        }else{
+            // Proccess data
+            $data = [
+                'title' => "Reset Password",
+              'password' => $_POST['password'],
+                'password_error' => '',
+                'confirm_password' => $_POST['confirm_password'],
+                'confirm_password_error' => ''
+            ];
+            // check if the password is valid
+            if (strlen($data['password']) < 8){
+                $data['password_error'] = "Your password should atleast contain 8 characters";
+            }elseif(!($data['password'] === $data['confirm_password'])){
+                $data['confirm_password_error'] = "The passwords you entered does not match !";
+            }
+            // Check if there are no errors
+            if (empty($data['password_error']) && empty($data['confirm_password_error'])){
+                die("success");
+            }else{
+                $this->view("users/reset_password",$data);
+            }
+        }
     }
 }
