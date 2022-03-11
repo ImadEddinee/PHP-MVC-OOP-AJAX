@@ -47,4 +47,12 @@ class User {
         }
         return false;
     }
+    // Update user password
+    public function resetPassword($email,$password){
+        $this->conn->query("UPDATE users SET password = ? WHERE email = ?");
+        if ($this->conn->execute($password,$email)){
+            return true;
+        }
+        return false;
+    }
 }

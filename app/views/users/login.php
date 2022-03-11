@@ -3,6 +3,7 @@
         <div class="card card-body bg-light mt-5">
             <?php flash("user_register"); ?>
             <?php flash("user_login"); ?>
+            <?php flash("reset_pass"); ?>
             <h2 class="fw-light mx-auto">Login</h2>
             <p class="fw-light mx-auto">Please fill in your credentials to Log in</p>
             <form action="<?= ROOT."Users/login" ?>" method="POST">

@@ -118,7 +118,7 @@ class Users extends Controller{
                 $result = $this->userModel->login($data['email'],$data['password']);
                 if ($result){
                     createUserSession($result);
-                    redirect("pages/index");
+                    redirect("posts");
                 }else{
                     flash("user_login","Bad Credentials","alert alert-danger");
                     redirect("users/login");
@@ -267,10 +267,19 @@ class Users extends Controller{
             }
             // Check if there are no errors
             if (empty($data['password_error']) && empty($data['confirm_password_error'])){
-                die("success");
+                // Hash the password
+                $encoded_pass = password_hash($data['password'],PASSWORD_DEFAULT);
+                $this->userModel->resetPassword($_SESSION['email'],$encoded_pass);
+                unset($_SESSION['email']);
+                flash("reset_pass","Your Password is updated you can login now");
+                redirect("users/login");
             }else{
                 $this->view("users/reset_password",$data);
             }
         }
+    }
+    public function deconnection(){
+        destroySession();
+        redirect("users/login");
     }
 }

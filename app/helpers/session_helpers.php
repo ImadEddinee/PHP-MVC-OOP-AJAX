@@ -31,3 +31,9 @@ function isLoggedIn(){
         return true;
     return false;
 }
+function destroySession(){
+    unset($_SESSION['user_email']);
+    unset($_SESSION['user_id']);
+    unset($_SESSION['username']);
+    session_destroy();
+}
