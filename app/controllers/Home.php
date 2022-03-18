@@ -1,16 +1,16 @@
 <?php
 
-class Posts extends Controller{
-
+class Home extends Controller{
+    
     public function __construct(){
-        if (!isLoggedIn()){
+        if (!isLoggedIn())
             redirect("users/login");
-        }
     }
+
     public function index(){
         $data = [
-          'title' => "Posts"
+          'title' => 'Home Page'
         ];
-        $this->view("posts/index",$data);
+        $this->view("home/index",$data);
     }
 }
