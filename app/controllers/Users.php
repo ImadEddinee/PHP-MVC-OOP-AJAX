@@ -118,7 +118,7 @@ class Users extends Controller{
                 $result = $this->userModel->login($data['email'],$data['password']);
                 if ($result){
                     createUserSession($result);
-                    redirect("posts");
+                    redirect("Home");
                 }else{
                     flash("user_login","Bad Credentials","alert alert-danger");
                     redirect("users/login");
@@ -197,10 +197,10 @@ class Users extends Controller{
         $mail->SMTPSecure = 'ssl';
         $mail->Host = 'smtp.gmail.com';
         $mail->Port = '465';
-        $mail->Username = 'hajaliimadeddine@gmail.com';
-        $mail->Password = 'ensas2020';
+        $mail->Username = 'imadhajali66@gmail.com';
+        $mail->Password = 'kzbxlrakolmxmjwe';
         try {
-            $mail->setFrom("hajaliimadeddine@gmail.com");
+            $mail->setFrom("imadhajali66@gmail.com");
         } catch (\PHPMailer\PHPMailer\Exception $e) {
         }
         $mail->Subject = 'Code de vérification';
@@ -276,6 +276,11 @@ class Users extends Controller{
             }else{
                 $this->view("users/reset_password",$data);
             }
+        }
+    }
+    public function search(){
+        if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+            die("search method");
         }
     }
     public function deconnection(){

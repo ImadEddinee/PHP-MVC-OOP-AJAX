@@ -6,7 +6,7 @@ class Home extends Controller{
         if (!isLoggedIn())
             redirect("users/login");
     }
-
+    // Fetch all categories of a user and display a form to add a picture
     public function index(){
         $data = [
           'title' => 'Home Page'
