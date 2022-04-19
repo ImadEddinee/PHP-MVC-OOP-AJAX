@@ -3,7 +3,7 @@
  * the base controller
  * load the views and the models
  */
-class Controller{
+class    Controller{
     //Load model
     public function model($model){
         require_once '../app/models/'.$model.'.php';

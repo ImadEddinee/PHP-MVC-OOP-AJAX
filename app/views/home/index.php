@@ -2,13 +2,15 @@
     <div class="col-md-3 mt-5">
         <form action="<?= ROOT."categories/add" ?>" method="GET">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Add new Categorie">
+                <input type="text" name="name"
+                       value="<?= isset($data['category']) ? $data['category'] : '';?>" class="form-control" placeholder="Add new Categorie">
+                <span class="invalid-feedback"><?= isset($data['category_error']) ? $data['category_error'] : '';?></span>
                 <input type="submit" value="Add    " class="btn btn-outline-secondary">
             </div>
         </form>
         <form action="<?= ROOT."users/search" ?>" method="GET">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Enter a username">
+                <input type="text" name="username" class="form-control" placeholder="Enter a username">
                 <input type="submit" value="Search" class="btn btn-outline-secondary">
             </div>
         </form>

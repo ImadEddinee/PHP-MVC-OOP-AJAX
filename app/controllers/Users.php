@@ -32,8 +32,8 @@ class Users extends Controller{
                 'confirm_password_error' => ""
             ];
             //Validate the name
-            if (strlen($data['username']) < 5 || strlen($data['username']) > 15){
-                $data['name_error'] = "The name should contain between 5 and 15 characters";
+            if (strlen($data['username']) < 5 || strlen($data['username']) > 25){
+                $data['name_error'] = "The name should contain between 5 and 25 characters";
             }else if ($this->userModel->findUserByUsername($data['username'])){
                 // Check if the username is unique
                 $data['username_error'] = "Username is already in use !";
@@ -279,9 +279,7 @@ class Users extends Controller{
         }
     }
     public function search(){
-        if ($_SERVER['REQUEST_METHOD'] == 'GET'){
-            die("search method");
-        }
+        $username = $_GET['username'];
     }
     public function deconnection(){
         destroySession();
