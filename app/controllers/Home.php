@@ -11,7 +11,9 @@ class Home extends Controller{
     // Fetch all categories of a user and display a form to add a picture
     public function index(){
         $data = [
-          'title' => 'Home Page',
+            'title' => 'Home Page',
+            'picture_link' => '',
+            'picture_description' => '',
             'categories' => $this->categoryModel->getAllCategories()
         ];
         $this->view("home/index",$data);

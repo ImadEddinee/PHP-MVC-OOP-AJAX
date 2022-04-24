@@ -3,9 +3,11 @@
         <form action="<?= ROOT."categories/add" ?>" method="GET">
             <div class="input-group mb-3">
                 <input type="text" name="name"
-                       value="<?= isset($data['category']) ? $data['category'] : '';?>" class="form-control" placeholder="Add new Categorie">
-                <span class="invalid-feedback"><?= isset($data['category_error']) ? $data['category_error'] : '';?></span>
+                       value="<?= isset($data['category']) ? $data['category'] : '';?>"
+                       class="form-control <?= isset($data['category_error']) ? 'is-invalid' : ''; ?> "
+                       placeholder="Add new Categorie">
                 <input type="submit" value="Add    " class="btn btn-outline-secondary">
+                <span><?= isset($data['category_error']) ? $data['category_error'] : '';?></span>
             </div>
         </form>
         <form action="<?= ROOT."users/search" ?>" method="GET">
@@ -24,7 +26,9 @@
                 <form action="<?= ROOT."picture/add_photo" ?>" enctype="multipart/form-data" method="POST">
                     <div style="margin-bottom: 10px">
                         <label for="photo" class="form-label">Fichier de la photo :</label>
-                        <input type="file" id="photo" name="photo" class="form-control" required size=30 />
+                        <input type="file" id="photo" name="photo"
+                               class="form-control <?= isset($data['photo_error']) ? 'is-invalid' : ''; ?>" required size=30 />
+                        <span class="invalid-feedback"><?= $data['photo_error']; ?></span>
                     </div>
                     <?php if (count($data['categories']) == 0) : ?>
                         <div class="alert alert-danger" role="alert">
@@ -41,7 +45,7 @@
                                            value="<?= $data['categories'][$i]->id ?>"
                                            id="<?= $i ?>">
                                     <label class="form-check-label" for="<?= $i ?>">
-                                        <?= $data['categories'][$i]->nom ?>
+                                        <?= $data['categories'][$i]->name ?>
                                     </label>
                                 </div>
                             <?php endfor; ?>
@@ -49,12 +53,16 @@
                     <?php endif; ?>
 
                     <div class="form-floating" style="margin-bottom: 10px">
-                        <textarea class="form-control" aria-required="true" name="description" required placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                        <textarea class="form-control" aria-required="true" name="description" required placeholder="Leave a comment here" id="floatingTextarea">
+                            <?= $data['picture_description'] ?>
+                        </textarea>
                         <label for="floatingTextarea">Ajouter une description ici</label>
                     </div>
                     <div style="margin-bottom: 10px">
-                        <label class="form-label" for="date">Date de la photo : </label>
-                        <input type="date" id="date" required class="form-control" name="date_photo">
+                        <label class="form-label" for="link">Ajouter un lien : </label>
+                        <input type="text" id="link"
+                               value="<?= $data['picture_link']; ?>"
+                               class="form-control" name="link">
                     </div>
                     <div>
                     </div>

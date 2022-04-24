@@ -7,6 +7,7 @@ class Users extends Controller{
     public function __construct(){
         $this->userModel = $this->model("User");
     }
+
     public function index(){
         //Check if the user if already legged in
 
