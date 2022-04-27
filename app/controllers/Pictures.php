@@ -3,11 +3,13 @@
 class Pictures extends Controller{
 
     private $pictureModel;
+    private $categoryModel;
     public function __construct(){
         if (!isLoggedIn()) {
             redirect("users/login");
         }
         $this->pictureModel = $this->model("Picture");
+        $this->categoryModel = $this->model("Category");
     }
 
     public function index(){
@@ -15,46 +17,41 @@ class Pictures extends Controller{
     }
 
     public function add(){
-        $data = [
-            'title' => 'Home Page',
-            'picture_link' => '',
-            'picture_description' => '',
-            'categories' => $this->categoryModel->getAllCategories()
-        ];
-        if (isset($_POST['categories'])){
-            if (!empty($_POST['categories'])){
-                $fichier = sauve_photo('photo');
-                if ($fichier != null){
-                    $picture = $this->loadModel("photo");
-                    $categorie = $this->loadModel("category");
-                    // Add photo in database
-                    if ($picture->add_photo($fichier,$date_photo,$description,$_SESSION['user_name'])){
-                        //Get photo id
-                        $id_photo = $picture->get_id();
-                        $result = array();
-                        foreach ($_POST['categories'] as $cat){
-                            //Map each photo with its categories
-                            $categorie->map_categorie_photo($id_photo[0]->id,$cat);
-                            // Get the name of each categorie
-                            $result[] = $categorie->get_categorie_by_id($cat)[0];
-                        }
-                        $date = strtotime($date_photo);
-                        $data['photo_info']['prop'] = $_SESSION['user_name'];
-                        $data['photo_info']['date'] = date('d/m/Y',$date);
-                        $data['photo_info']['desc'] = $description;
-                        $data['photo_info']['fichier'] = $fichier;
-                        $data['photo_info']['categories'] = $result;
-                        $data['page_title'] = "Photo Ajoutée";
-                        $this->view("photo/ajout_photo",$data);
-                    }
-                }else{
-                    header("location: ".ROOT);
+        if ($_SERVER['REQUEST_METHOD'] == "POST"){
+            $data = [
+                'title' => 'Home Page',
+                'picture_link' => trim($_POST['link']),
+                'picture_description' => trim($_POST['description']),
+                'categories' => $this->categoryModel->getAllCategories()
+            ];
+            $fileExt = explode(".",$_FILES['photo']['name']);
+            $fileActualExt = strtolower(end($fileExt));
+            $allowedExt = array("jpg","jpeg","png");
+            if (in_array($fileActualExt,$allowedExt)){
+                // Make sure the name of the file is unique
+                $fileNewName = uniqid("", true).".".$fileActualExt;
+                $fileDestination = 'assets/photos/' . $fileNewName;
+                // TODO: add directory for each user
+                move_uploaded_file($_FILES['photo']['tmp_name'], $fileDestination);
+                // Persist the post
+                $photo_id = $this->pictureModel->add_photo($fileDestination,$data['picture_description'],$data['picture_link'])[0]->id;
+            }else{
+                $data['photo_error'] = "File extension not allowed";
+            }
+            // Make sure that atleast one category is checked
+            if (isset($_POST['categories'])){
+                foreach ($_POST['categories'] as $cat){
+                    $this->pictureModel->map_picture_category($photo_id, $cat);
+                    flash("post_added","Une nouvelle photo a été ajoutée");
+                    redirect("home");
                 }
             }else{
-                header("location: ".ROOT);
+                $data['checkbox_error'] = "Atleast one category should be chosen";
             }
-        }else{
-            header("location: ".ROOT);
+            if (isset($data['checkbox_error']) || isset($data['photo_error'])){
+                $this->view("home/index",$data);
+            }
         }
+
     }
 }

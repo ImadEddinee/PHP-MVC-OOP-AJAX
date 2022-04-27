@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-3 mt-5">
-        <form action="<?= ROOT."categories/add" ?>" method="GET">
+        <form action="<?= ROOT."categories/add" ?>" method="POST">
             <div class="input-group mb-3">
                 <input type="text" name="name"
                        value="<?= isset($data['category']) ? $data['category'] : '';?>"
@@ -19,15 +19,16 @@
     </div>
     <div class="col-md-9 mt-5">
         <div class="card">
+            <?php flash("post_added"); ?>
             <div class="card-header fw-light" style="text-align: center">
                 Ajouter une photo à ma collection
             </div>
             <div class="card-body">
-                <form action="<?= ROOT."picture/add_photo" ?>" enctype="multipart/form-data" method="POST">
+                <form action="<?= ROOT."pictures/add" ?>" enctype="multipart/form-data" method="POST">
                     <div style="margin-bottom: 10px">
-                        <label for="photo" class="form-label">Fichier de la photo :</label>
+                        <label for="photo" class="form-label">Ajouter une photo :</label>
                         <input type="file" id="photo" name="photo"
-                               class="form-control <?= isset($data['photo_error']) ? 'is-invalid' : ''; ?>" required size=30 />
+                               class="form-control <?= isset($data['photo_error']) ? 'is-invalid' : ''; ?>" required />
                         <span class="invalid-feedback"><?= $data['photo_error']; ?></span>
                     </div>
                     <?php if (count($data['categories']) == 0) : ?>
@@ -36,6 +37,7 @@
                         </div>
                     <?php else : ?>
                         <label for="">Sélectionner une ou plusieurs Catégorie : </label>
+                        <span><?= isset($data['checkbox_error']) ? $data['checkbox_error'] : ''; ?></span>
                         <div style="margin-bottom: 10px;height: 80px;overflow: auto">
                             <?php for ($i=0;$i<count($data['categories']);$i++): ?>
                                 <div class="form-check">

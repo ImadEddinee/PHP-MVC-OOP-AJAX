@@ -11,7 +11,7 @@ class Category
 
     // Check for redundant category name
     public function findCategoryByName($name){
-        $this->conn->query("SELECT * FROM CATEGORIE WHERE name = ?");
+        $this->conn->query("SELECT * FROM CATEGORY WHERE name = ?");
         $this->conn->execute($name);
         if ($this->conn->rowCount() > 0){
             return true;
@@ -21,13 +21,13 @@ class Category
 
     // Add new Category
     public function addCategory($name,$user_id){
-        $this->conn->query("INSERT INTO CATEGORIE (name,user_id) VALUES (?,?)");
+        $this->conn->query("INSERT INTO CATEGORY (name,user_id) VALUES (?,?)");
         $this->conn->execute($name, $user_id);
     }
 
     // Get all categories
     public function getAllCategories(){
-        $this->conn->query("SELECT * FROM CATEGORIE");
+        $this->conn->query("SELECT * FROM CATEGORY");
         $this->conn->execute();
         return $this->conn->resultSet();
     }
