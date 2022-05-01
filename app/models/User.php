@@ -47,6 +47,15 @@ class User {
         }
         return false;
     }
+    // Get user info
+    public function getUser($user_id){
+        $this->conn->query("SELECT * FROM USER WHERE id = ?");
+        $this->conn->execute($user_id);
+        if ($this->conn->rowCount() > 0){
+            return $this->conn->resultSet();
+        }
+        return false;
+    }
     // Update user password
     public function resetPassword($email,$password){
         $this->conn->query("UPDATE user SET password = ? WHERE email = ?");

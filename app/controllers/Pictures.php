@@ -4,6 +4,7 @@ class Pictures extends Controller{
 
     private $pictureModel;
     private $categoryModel;
+
     public function __construct(){
         if (!isLoggedIn()) {
             redirect("users/login");
@@ -52,6 +53,53 @@ class Pictures extends Controller{
                 $this->view("home/index",$data);
             }
         }
+    }
 
+    public function get($post_id){
+        // Get post by id
+        $post = $this->pictureModel->getPost($post_id)[0];
+        // Get Post's categories
+        $categories = $this->pictureModel->findPostCategory($post_id);
+        if (!$post_id || !$categories){
+            die("Post id not found");
+        }
+        $data = [
+            'title' => "Post details",
+            'post' => $post
+        ];
+        // Get Category By Id
+        foreach ($categories as $cat){
+            $data['categories'][] = $this->categoryModel->getCategoryById($cat->category_id);
+        }
+        $this->view("pictures/index",$data);
+    }
+
+    public function update($post_id){
+        // Check if the user is the owner of the post
+        $post = $this->pictureModel->getPost($post_id)[0];
+        // Get all user's categories
+        $categories = $this->categoryModel->getAllCategories();
+        // Get all categories that are relevant to the post
+        $postCategories = $this->pictureModel->findPostCategory($post_id);
+        foreach ($postCategories as $cat){
+            $result[] = $this->categoryModel->getCategoryById($cat->category_id);
+        }
+        foreach ($result as $cat_id){
+            $category_id[] = $cat_id[0]->id;
+        }
+        if (!$post){
+            // TODO : handle exceptions
+            die("There is no post with this id");
+        }
+        if ($_SESSION['user_id'] != $post->user_id ){
+            die("You can't modify this post");
+        }
+        $data = [
+            'title' => "Update Post",
+            'post' => $post,
+            'post_categories' => $category_id,
+            'categories' => $categories
+        ];
+        $this->view("pictures/update",$data);
     }
 }

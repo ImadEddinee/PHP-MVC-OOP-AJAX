@@ -3,16 +3,38 @@
 class Users extends Controller{
 
     private $userModel;
+    private $pictureModel;
 
     public function __construct(){
+        //Check if the user if already legged in
+        if (!isLoggedIn()){
+            // Redirect to the login Page
+            header("location: ".ROOT."/Users/login");
+        }
         $this->userModel = $this->model("User");
+        $this->pictureModel = $this->model("Picture");
     }
 
     public function index(){
-        //Check if the user if already legged in
-
-        // Redirect to the login Page
-        header("location: ".ROOT."/Users/login");
+        if (isset($_GET['user_id'])){
+            $user_id = $_GET['user_id'];
+        }else{
+            $user_id = $_SESSION['user_id'];
+        }
+        // Get user details
+        $user = $this->userModel->getUser($user_id)[0];
+        // Get Posts shared by the user
+        $posts = $this->pictureModel->getPostsByUserId($user_id);
+        if (!$user || !$posts){
+            die("user id not found");
+        }
+        $data = [
+            'title' => "Profile",
+            'user_id' => $user->id,
+            'username' => $user->username,
+            'posts' => $posts
+        ];
+        $this->view("users/index",$data);
     }
 
     public function register(){

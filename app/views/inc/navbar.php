@@ -39,7 +39,7 @@
                             <?= isset($_SESSION['username']) ? $_SESSION['username'] : 'Menu' ?>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item text-center" href="#">Profile</a></li>
+                            <li><a class="dropdown-item text-center" href="<?= ROOT . "users"; ?>">Profile</a></li>
                             <li><a class="dropdown-item text-center" href="<?= ROOT. "users/deconnection" ?>">Déconnecter</a></li>
                         </ul>
                     </li>

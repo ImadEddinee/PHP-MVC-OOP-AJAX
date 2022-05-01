@@ -19,6 +19,12 @@ class Category
         return false;
     }
 
+    public function getCategoryById($category_id){
+        $this->conn->query("SELECT * FROM CATEGORY WHERE id = ?");
+        $this->conn->execute($category_id);
+        return $this->conn->resultSet();
+    }
+
     // Add new Category
     public function addCategory($name,$user_id){
         $this->conn->query("INSERT INTO CATEGORY (name,user_id) VALUES (?,?)");
