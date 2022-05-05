@@ -14,6 +14,7 @@ class Home extends Controller{
             'title' => 'Home Page',
             'picture_link' => '',
             'picture_description' => '',
+            'checked_categories' => array(),
             'categories' => $this->categoryModel->getAllCategories()
         ];
         $this->view("home/index",$data);

@@ -28,7 +28,7 @@
                     <div style="margin-bottom: 10px">
                         <label for="photo" class="form-label">Ajouter une photo :</label>
                         <input type="file" id="photo" name="photo"
-                               class="form-control <?= isset($data['photo_error']) ? 'is-invalid' : ''; ?>" required />
+                               class="form-control <?= isset($data['photo_error']) ? 'is-invalid' : ''; ?>"/>
                         <span class="invalid-feedback"><?= $data['photo_error']; ?></span>
                     </div>
                     <?php if (count($data['categories']) == 0) : ?>
@@ -37,7 +37,8 @@
                         </div>
                     <?php else : ?>
                         <label for="">Sélectionner une ou plusieurs Catégorie : </label>
-                        <span><?= isset($data['checkbox_error']) ? $data['checkbox_error'] : ''; ?></span>
+                        <input type="hidden" class="<?= isset($data['checkbox_error']) ? 'is-invalid' : '' ?>">
+                        <span class="invalid-feedback"><?= $data['checkbox_error']; ?></span>
                         <div style="margin-bottom: 10px;height: 80px;overflow: auto">
                             <?php for ($i=0;$i<count($data['categories']);$i++): ?>
                                 <div class="form-check">
@@ -45,6 +46,7 @@
                                            name="categories[]"
                                            type="checkbox"
                                            value="<?= $data['categories'][$i]->id ?>"
+                                           <?= in_array($data['categories'][$i]->id, $data['checked_categories']) ? 'checked' : ''; ?>
                                            id="<?= $i ?>">
                                     <label class="form-check-label" for="<?= $i ?>">
                                         <?= $data['categories'][$i]->name ?>
@@ -55,9 +57,10 @@
                     <?php endif; ?>
 
                     <div class="form-floating" style="margin-bottom: 10px">
-                        <textarea class="form-control" aria-required="true" name="description" required placeholder="Leave a comment here" id="floatingTextarea">
+                        <textarea class="form-control <?= isset($data['description_error']) ? 'is-invalid' : '' ?>" aria-required="true" name="description" required placeholder="Leave a comment here" id="floatingTextarea">
                             <?= $data['picture_description'] ?>
                         </textarea>
+                        <span class="invalid-feedback"><?= $data['description_error'] ?></span>
                         <label for="floatingTextarea">Ajouter une description ici</label>
                     </div>
                     <div style="margin-bottom: 10px">

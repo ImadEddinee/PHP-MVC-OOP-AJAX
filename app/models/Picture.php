@@ -48,4 +48,14 @@ class Picture{
         }
         return false;
     }
+
+    public function update_post($description,$lien,$post_id){
+        $this->conn->query("UPDATE post SET description = ? , lien = ? WHERE id = ?");
+        $this->conn->execute($description, $lien, $post_id);
+    }
+
+    public function deletePost($post_id){
+        $this->conn->query("DELETE FROM post WHERE id = ?");
+        $this->conn->execute($post_id);
+    }
 }

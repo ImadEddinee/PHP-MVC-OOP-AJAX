@@ -41,9 +41,8 @@ class User {
     public function findUserByEmail($email){
         $this->conn->query("SELECT * FROM user WHERE email = ?");
         $this->conn->execute($email);
-        $this->conn->resultSet();
         if ($this->conn->rowCount() > 0){
-            return true;
+            return $this->conn->resultSet();;
         }
         return false;
     }

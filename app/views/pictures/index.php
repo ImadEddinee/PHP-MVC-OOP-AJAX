@@ -9,7 +9,7 @@
                     <div class="row">
                         <div class="col-6">
                             <img width="250px"
-                                 src='<?= $data['post']->picture?>'
+                                 src='<?= ASSETS . $data['post']->picture?>'
                                  alt="photo">
                         </div>
                         <div class="col-6" style="margin-top: 40px">
@@ -35,13 +35,23 @@
                         </div>
                         <input type="hidden" name="submit" value="<?= $data['post']->user_id ?>">
                     </form>
-                    <div class="d-grid gap-2" style="margin-top: 5px">
-                        <?php if ($_SESSION['user_id'] == $data['post']->user_id) : ?>
-                            <a class="btn btn-outline-dark"
-                               href='<?= ROOT . "pictures/update/" . $data['post']->id; ?>'>Modifier les
-                                informations sur cette photo</a>
-                        <?php endif; ?>
+                    <?php if ($_SESSION['user_id'] == $data['post']->user_id) : ?>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="d-grid gap-2" style="margin-top: 5px">
+                                    <a class="btn btn-outline-dark"
+                                       href='<?= ROOT . "pictures/update/" . $data['post']->id; ?>'>Modifier les
+                                        informations sur cette photo</a>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-outline-danger" style="margin-top: 5px"
+                                    href="<?= ROOT . "pictures/delete/" . $data['post']->id?>">
+                                Supprimer
+                            </a>
+                        </div>
                     </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -52,19 +62,19 @@
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-10">
-                                    <p><b><?= rawurldecode($data['comments'][$i]->auteur) ?></b> <span class="fw-light">(<?= $data['comments'][$i]->depot ?>)</span>
+                                    <p><b><?= $data['comments'][$i]->username ?></b> <span class="fw-light">(<?= $data['comments'][$i]->created_at ?>)</span>
                                     </p>
-                                    <p class="fw-normal text-break"><?= stripslashes($data['comments'][$i]->contenu) ?></p>
+                                    <p class="fw-normal text-break"><?= $data['comments'][$i]->contenu ?></p>
                                 </div>
                                 <div class="col-2">
                                     <form action="<?= ROOT . "home/user" ?>" method="POST">
                                         <input type="hidden" name="submit"
-                                               value="<?= rawurldecode($data['comments'][$i]->auteur) ?>">
+                                               value="<?= $data['comments'][$i]->user_id ?>">
                                         <input type="submit" class="btn btn-light" value="Profile">
                                     </form>
-                                    <?php if (isset($data['photo_owner']) || $data['comments'][$i]->auteur == $_SESSION['user_name']) { ?>
+                                    <?php if ($_SESSION['user_id'] == $data['comments'][$i]->user_id) { ?>
                                         <a class="btn btn-outline-danger"
-                                           href="<?= ROOT . "comments/delete_comment/" . $data['comments'][$i]->id . "/" . $data['photo'][0]->id; ?>">
+                                           href="<?= ROOT . "comments/delete/" . $data['comments'][$i]->id;  ?>">
                                             Delete
                                         </a>
                                     <?php } ?>
@@ -74,7 +84,9 @@
                     <?php endfor; ?>
                 </ul>
             <?php else : ?>
-                <p>No comments to show</p>
+                <div class="alert alert-warning" role="alert">
+                    No comments to show
+                </div>
             <?php endif; ?>
         </div>
     </div>
@@ -85,7 +97,7 @@
                     Ajouter un commentaire
                 </div>
                 <div class="card-body">
-                    <form action="<?= ROOT . "picture/add_comment/" . $data['photo'][0]->id ?>" method="POST">
+                    <form action="<?= ROOT . "comments/add/" . $data['post']->id ?>" method="POST">
                         <div class="form-floating" style="margin-bottom: 10px">
                             <textarea class="form-control" name="contenu" required placeholder="Leave a comment here"
                                       id="floatingTextarea"></textarea>

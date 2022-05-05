@@ -8,3 +8,4 @@ define('SITENAME',"Mini Facebook");
 
 define('APPROOT',dirname(dirname(__FILE__))).
 define('ROOT', "http://localhost/PHP-MVC-OOP-PDO/");
+define('ASSETS', "http://localhost/PHP-MVC-OOP-PDO/public/");

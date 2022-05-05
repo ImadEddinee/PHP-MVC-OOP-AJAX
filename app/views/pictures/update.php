@@ -6,7 +6,7 @@
                     Modification de la photo
                 </div>
                 <div class="card-body">
-                    <form action="<?= ROOT."picture/save" ?>" method="POST">
+                    <form action="<?= ROOT."pictures/update/" . $data['post']->id ?>" method="POST">
                         <div class="form-floating" style="margin-bottom: 10px">
                     <textarea class="form-control" name="description" required placeholder="Leave a comment here" id="floatingTextarea">
                         <?= $data['post']->description; ?>
@@ -31,7 +31,12 @@
                                 <?php endfor; ?>
                             </div >
                         </div >
-                        <input type='hidden' name='id' value='<?=$data['post']->id;?>'>
+                        <div style="margin-bottom: 10px">
+                            <label class="form-label" for="link">Ajouter un lien : </label>
+                            <input type="text" id="link"
+                                   value="<?= $data['post']->lien; ?>"
+                                   class="form-control" name="lien">
+                        </div>
                         <div class="row">
                             <div class="col-10">
                                 <div class="d-grid gap-2" style="margin-top: 5px">
@@ -49,7 +54,7 @@
             </div>
         </div>
         <div class="col-4">
-            <img width="450px" src='<?= $data['post']->picture ?>'>
+            <img width="450px" src='<?= ASSETS . $data['post']->picture ?>' alt="ss">
         </div>
     </div>
 </div>

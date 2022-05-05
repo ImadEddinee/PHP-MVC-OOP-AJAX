@@ -2,7 +2,7 @@
 
 session_start();
 
-function flash($name = '', $message = '',$class = "alert alert-success"){
+function flash($name = '', $message = '',$class = "alert alert-success text-center fw-light"){
     if (!empty($name)){
         if (!empty($message)){
             if (!empty($_SESSION[$name])){

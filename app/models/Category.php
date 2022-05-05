@@ -37,4 +37,9 @@ class Category
         $this->conn->execute();
         return $this->conn->resultSet();
     }
+
+    public function deleteCategories($post_id){
+        $this->conn->query("DELETE FROM post_category WHERE post_id = ?");
+        $this->conn->execute($post_id);
+    }
 }

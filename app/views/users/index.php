@@ -7,7 +7,7 @@
             <div class="col-3">
                 <div class="card" style="height: 29rem;margin-bottom: 10px">
                     <div style="min-height: 260px">
-                        <img src='<?= $data['posts'][$i]->picture?>' class="card-img-top" alt="...">
+                        <img src='<?= ASSETS . $data['posts'][$i]->picture?>' class="card-img-top" alt="...">
                     </div>
                     <div class="card-body">
                         <h5 class="card-title" style="text-align: center">

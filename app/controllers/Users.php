@@ -6,11 +6,7 @@ class Users extends Controller{
     private $pictureModel;
 
     public function __construct(){
-        //Check if the user if already legged in
-        if (!isLoggedIn()){
-            // Redirect to the login Page
-            header("location: ".ROOT."/Users/login");
-        }
+
         $this->userModel = $this->model("User");
         $this->pictureModel = $this->model("Picture");
     }
@@ -85,8 +81,9 @@ class Users extends Controller{
                 $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);
                 // Persiste the data in  database
                 if ($this->userModel->register($data)){
-                    flash("user_register","You are registered you can Log in");
-                    redirect("users/login");
+                    redirect("users/confirm/".$data['email']);
+//                    flash("user_register","You are registered you can Log in");
+//                    redirect("users/login");
                 }else{
                     die("Something went wrong");
                 }
@@ -108,6 +105,18 @@ class Users extends Controller{
             ];
             // Load the Register form
             $this->view("users/register",$data);
+        }
+    }
+
+    public function confirm($email){
+        // find user by email
+        $user = $this->userModel->findUserByEmail($email);
+        if ($user[0]->enabled == 0){
+            // Generate and Store the code that that will be sent in the session
+            $this->generateCode();
+            // Send an email
+            $this->send_email();
+            redirect("users/code");
         }
     }
 
