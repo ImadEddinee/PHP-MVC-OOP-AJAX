@@ -63,4 +63,9 @@ class User {
         }
         return false;
     }
+
+    public function enableUserByEmail($email){
+        $this->conn->query("UPDATE USER SET enabled = 1 WHERE email = ?");
+        $this->conn->execute($email);
+    }
 }

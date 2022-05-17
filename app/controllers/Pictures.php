@@ -29,7 +29,6 @@ class Pictures extends Controller
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $data = [
                 'title' => 'Home Page',
-                'picture_link' => trim($_POST['link']),
                 'picture_description' => trim($_POST['description']),
                 'checked_categories' => isset($_POST['categories']) ? $_POST['categories'] : array(),
                 'categories' => $this->categoryModel->getAllCategories()
@@ -47,7 +46,7 @@ class Pictures extends Controller
                         // TODO: add directory for each user
                         move_uploaded_file($_FILES['photo']['tmp_name'], $fileDestination);
                         // Persist the post
-                        $photo_id = $this->pictureModel->add_photo($fileDestination, $data['picture_description'], $data['picture_link'])[0]->id;
+                        $photo_id = $this->pictureModel->add_photo($fileDestination, $data['picture_description'])[0]->id;
                     } else {
                         $data['photo_error'] = "File extension not allowed";
                     }
@@ -137,14 +136,13 @@ class Pictures extends Controller
                 $this->view("pictures/update", $data);
             } else {
                 $description = trim($_POST['description']);
-                $lien = trim($_POST['lien']);
                 if (isset($_POST['categories'])) {
                     $this->categoryModel->deleteCategories($post_id);
                     foreach ($_POST['categories'] as $cat) {
                         //Map each photo with its categories
                         $this->pictureModel->map_picture_category($post_id, $cat);
                     }
-                    $this->pictureModel->update_post($description, $lien, $post_id);
+                    $this->pictureModel->update_post($description, $post_id);
                     redirect("pictures/get/".$post_id);
                 }
             }
@@ -163,6 +161,51 @@ class Pictures extends Controller
             redirect("users");
         }else{
             die("You are not the owner of this post");
+        }
+    }
+
+    public function vote($post_id,$op){
+        // Check if post exists
+        $post = $this->pictureModel->getPost($post_id);
+        if ($post){
+            // if user has already liked the post
+            // then decrement the like counter
+            // otherwise increment the like counter
+            $result = $this->pictureModel->mapUserPost($post_id, $_SESSION['user_id']);
+            if ($result){
+                if ($op == 1){
+                    if ($result[0]->liked){
+                        $this->pictureModel->decrementLikes($post_id);
+                        $this->pictureModel->deleteReaction($post_id, $_SESSION['user_id']);
+                    }else{
+                        $this->pictureModel->incrementLikes($post_id);
+                        $this->pictureModel->decrementDislikes($post_id);
+                        $this->pictureModel->deleteReaction($post_id, $_SESSION['user_id']);
+                        $this->pictureModel->mapUserPost($post_id, $_SESSION['user_id'],$op);
+                    }
+                }else{
+                    if ($result[0]->disliked){
+                        $this->pictureModel->decrementDislikes($post_id);
+                        $this->pictureModel->deleteReaction($post_id, $_SESSION['user_id']);
+                    }else{
+                        $this->pictureModel->decrementLikes($post_id);
+                        $this->pictureModel->incrementDislikes($post_id);
+                        $this->pictureModel->deleteReaction($post_id, $_SESSION['user_id']);
+                        $this->pictureModel->mapUserPost($post_id, $_SESSION['user_id'],$op);
+                    }
+                }
+            }else{
+                $this->pictureModel->mapUserPost($post_id, $_SESSION['user_id'],$op);
+                if ($op == 1){
+                    $this->pictureModel->incrementLikes($post_id);
+                }else{
+                    $this->pictureModel->incrementDislikes($post_id);
+                }
+            }
+            redirect("pictures/get/".$post_id);
+        }else{
+            // Post doesn't exists then return to the home page
+            redirect("home");
         }
     }
 }

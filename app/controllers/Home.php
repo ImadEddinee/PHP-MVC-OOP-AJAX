@@ -12,7 +12,6 @@ class Home extends Controller{
     public function index(){
         $data = [
             'title' => 'Home Page',
-            'picture_link' => '',
             'picture_description' => '',
             'checked_categories' => array(),
             'categories' => $this->categoryModel->getAllCategories()

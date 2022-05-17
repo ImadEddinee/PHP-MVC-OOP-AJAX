@@ -19,11 +19,11 @@ class Users extends Controller{
         }
         // Get user details
         $user = $this->userModel->getUser($user_id)[0];
-        // Get Posts shared by the user
-        $posts = $this->pictureModel->getPostsByUserId($user_id);
-        if (!$user || !$posts){
+        if (!$user){
             die("user id not found");
         }
+        // Get Posts shared by the user
+        $posts = $this->pictureModel->getPostsByUserId($user_id);
         $data = [
             'title' => "Profile",
             'user_id' => $user->id,
@@ -81,9 +81,8 @@ class Users extends Controller{
                 $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);
                 // Persiste the data in  database
                 if ($this->userModel->register($data)){
-                    redirect("users/confirm/".$data['email']);
-//                    flash("user_register","You are registered you can Log in");
-//                    redirect("users/login");
+                    flash("user_register","You are registered you can Log in");
+                    redirect("users/login");
                 }else{
                     die("Something went wrong");
                 }
@@ -105,18 +104,6 @@ class Users extends Controller{
             ];
             // Load the Register form
             $this->view("users/register",$data);
-        }
-    }
-
-    public function confirm($email){
-        // find user by email
-        $user = $this->userModel->findUserByEmail($email);
-        if ($user[0]->enabled == 0){
-            // Generate and Store the code that that will be sent in the session
-            $this->generateCode();
-            // Send an email
-            $this->send_email();
-            redirect("users/code");
         }
     }
 
@@ -237,6 +224,9 @@ class Users extends Controller{
         }
         $mail->Subject = 'Code de vérification';
         $mail->Body = 'Votre code de vérification est : '.$_SESSION['code'];
+        if (isset($_SESSION['user_email'])){
+            $_SESSION['email'] = $_SESSION['user_email'];
+        }
         $mail->addAddress($_SESSION['email']);
         $mail->send();
     }
@@ -307,6 +297,51 @@ class Users extends Controller{
                 redirect("users/login");
             }else{
                 $this->view("users/reset_password",$data);
+            }
+        }
+    }
+
+    public function send_mail(){
+        // check if account isn't already confirmed
+        if (!$_SESSION['enabled']){
+            $this->generateCode();
+            // Send an email
+            $this->send_email();
+            flash("email_code","The email is sent successfully");
+            redirect("users/confirm");
+        }
+    }
+
+    public function confirm(){
+        if ($_SERVER['REQUEST_METHOD'] == "GET"){
+            // Init data
+            $data = [
+                'title' => 'Email Verification',
+                'code' => '',
+                'code_error' => ''
+            ];
+            $this->view("users/enable_account",$data);
+        }else{
+            $data = [
+                'title' => 'Email Verification',
+                'code' => trim($_POST['code']),
+                'code_error' => ''
+            ];
+            // Check if the code in a number
+            if (!filter_var($data['code'],FILTER_VALIDATE_INT)){
+                $data['code_error'] = "Please enter a valid code ";
+            }
+            //Check if the code entered match the code sent
+            if (!($data['code'] == $_SESSION['code'])){
+                $data['code_error'] = "The code you entered is incorrect !";
+            }
+            //Check if there are no errors
+            if (empty($data['code_error'])){
+                $_SESSION['enabled'] = true;
+                $this->userModel->enableUserByEmail($_SESSION['email']);
+                redirect("home");
+            }else{
+                $this->view("users/enable_account",$data);
             }
         }
     }

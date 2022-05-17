@@ -12,5 +12,10 @@
 </head>
 <body>
 <?php require_once APPROOT.'/views/inc/navbar.php'; ?>
+<?php if (isLoggedIn() && !$_SESSION['enabled']) : ?>
+    <div class="alert alert-warning" role="alert">
+        Please click <a href="<?= ROOT."users/send_mail" ?>">here</a> to confirm your email
+    </div>
+<?php endif; ?>
 <div class="container">
 

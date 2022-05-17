@@ -31,12 +31,6 @@
                                 <?php endfor; ?>
                             </div >
                         </div >
-                        <div style="margin-bottom: 10px">
-                            <label class="form-label" for="link">Ajouter un lien : </label>
-                            <input type="text" id="link"
-                                   value="<?= $data['post']->lien; ?>"
-                                   class="form-control" name="lien">
-                        </div>
                         <div class="row">
                             <div class="col-10">
                                 <div class="d-grid gap-2" style="margin-top: 5px">
@@ -54,7 +48,7 @@
             </div>
         </div>
         <div class="col-4">
-            <img width="450px" src='<?= ASSETS . $data['post']->picture ?>' alt="ss">
+            <img width="450px" src='<?= ASSETS . $data['post']->fichier ?>' alt="photo">
         </div>
     </div>
 </div>

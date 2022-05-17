@@ -63,12 +63,6 @@
                         <span class="invalid-feedback"><?= $data['description_error'] ?></span>
                         <label for="floatingTextarea">Ajouter une description ici</label>
                     </div>
-                    <div style="margin-bottom: 10px">
-                        <label class="form-label" for="link">Ajouter un lien : </label>
-                        <input type="text" id="link"
-                               value="<?= $data['picture_link']; ?>"
-                               class="form-control" name="link">
-                    </div>
                     <div>
                     </div>
                     <div class="row">

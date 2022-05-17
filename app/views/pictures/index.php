@@ -9,7 +9,7 @@
                     <div class="row">
                         <div class="col-6">
                             <img width="250px"
-                                 src='<?= ASSETS . $data['post']->picture?>'
+                                 src='<?= ASSETS . $data['post']->fichier?>'
                                  alt="photo">
                         </div>
                         <div class="col-6" style="margin-top: 40px">
@@ -25,6 +25,8 @@
                                     endif;
                                 endfor; ?>
                             </p>
+                            <span class="fw-light"><?= $data['post']->likes; ?>  <a href="<?= ROOT . "pictures/vote/". $data['post']->id . "/1" ?>"><i class="fa-regular fa-thumbs-up"></i></a></span>
+                            <span class="fw-light"><?= $data['post']->dislike; ?>  <a href="<?= ROOT . "pictures/vote/". $data['post']->id . "/-1" ?>"><i class="fa-regular fa-thumbs-down"></i></span>
                         </div>
                     </div>
                 </div>
