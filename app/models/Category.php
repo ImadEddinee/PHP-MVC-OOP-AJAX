@@ -10,9 +10,9 @@ class Category
     }
 
     // Check for redundant category name
-    public function findCategoryByName($name){
-        $this->conn->query("SELECT * FROM CATEGORY WHERE name = ?");
-        $this->conn->execute($name);
+    public function findCategoryByName($name,$user_id){
+        $this->conn->query("SELECT * FROM CATEGORY WHERE name = ? AND user_id = ?");
+        $this->conn->execute($name,$user_id);
         if ($this->conn->rowCount() > 0){
             return true;
         }
@@ -38,8 +38,13 @@ class Category
         return $this->conn->resultSet();
     }
 
+    public function getUserCategory($user_id){
+        $this->conn->query("SELECT * FROM CATEGORY WHERE user_id = ?");
+        $this->conn->execute($user_id);
+        return $this->conn->resultSet();
+    }
     public function deleteCategories($post_id){
-        $this->conn->query("DELETE FROM post_category WHERE post_id = ?");
+        $this->conn->query("DELETE FROM picture_category WHERE picture_id = ?");
         $this->conn->execute($post_id);
     }
 }

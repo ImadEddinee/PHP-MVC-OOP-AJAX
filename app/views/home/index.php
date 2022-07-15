@@ -10,12 +10,13 @@
                 <span><?= isset($data['category_error']) ? $data['category_error'] : '';?></span>
             </div>
         </form>
-        <form action="<?= ROOT."users/search" ?>" method="GET">
             <div class="input-group mb-3">
-                <input type="text" name="username" class="form-control" placeholder="Enter a username">
-                <input type="submit" value="Search" class="btn btn-outline-secondary">
+                <h5>Search Users :</h5>
+                <form>
+                    <input type="text" class="form-control" onkeyup="showSuggestions(this.value)">
+                    <span id="output"></span>
+                </form>
             </div>
-        </form>
     </div>
     <div class="col-md-9 mt-5">
         <div class="card">

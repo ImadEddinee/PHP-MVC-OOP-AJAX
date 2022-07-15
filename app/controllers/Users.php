@@ -11,10 +11,8 @@ class Users extends Controller{
         $this->pictureModel = $this->model("Picture");
     }
 
-    public function index(){
-        if (isset($_GET['user_id'])){
-            $user_id = $_GET['user_id'];
-        }else{
+    public function index($sort = 0,$user_id = -1){
+        if ($user_id == -1){
             $user_id = $_SESSION['user_id'];
         }
         // Get user details
@@ -24,6 +22,18 @@ class Users extends Controller{
         }
         // Get Posts shared by the user
         $posts = $this->pictureModel->getPostsByUserId($user_id);
+        // Sort posts by likes
+        if ($sort){
+            for ($i=0;$i<count($posts);$i++){
+                for ($j=$i+1;$j<count($posts);$j++){
+                    if ($posts[$i]->likes < $posts[$j]->likes){
+                        $temp = $posts[$i];
+                        $posts[$i] = $posts[$j];
+                        $posts[$j] = $temp;
+                    }
+                }
+            }
+        }
         $data = [
             'title' => "Profile",
             'user_id' => $user->id,
@@ -32,6 +42,7 @@ class Users extends Controller{
         ];
         $this->view("users/index",$data);
     }
+
 
     public function register(){
         // Check if the request is comming from a form
@@ -216,14 +227,14 @@ class Users extends Controller{
         $mail->SMTPSecure = 'ssl';
         $mail->Host = 'smtp.gmail.com';
         $mail->Port = '465';
-        $mail->Username = 'imadhajali66@gmail.com';
-        $mail->Password = 'kzbxlrakolmxmjwe';
+        $mail->Username = 'hajaliimadeddine@gmail.com';
+        $mail->Password = 'oxtnqjbmkktbkzaa';
         try {
-            $mail->setFrom("imadhajali66@gmail.com");
+            $mail->setFrom("hajaliimadeddine@gmail.com");
         } catch (\PHPMailer\PHPMailer\Exception $e) {
         }
-        $mail->Subject = 'Code de vérification';
-        $mail->Body = 'Votre code de vérification est : '.$_SESSION['code'];
+        $mail->Subject = 'Code de verification';
+        $mail->Body = 'Votre code de verification est : '.$_SESSION['code'];
         if (isset($_SESSION['user_email'])){
             $_SESSION['email'] = $_SESSION['user_email'];
         }

@@ -1,1 +1,5 @@
-The Features page
+<div style="display: flex;flex-direction: column;justify-content: center;align-items: center;height: 70vh">
+    <h1 class="fw-light">
+        Our Features & Services.
+    </h1>
+</div>

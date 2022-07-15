@@ -2,8 +2,8 @@
     <div class="col-md-6 mx-auto">
         <div class="card card-body bg-light mt-5">
             <?php flash("email_code"); ?>
-            <h2>Account Recovery</h2>
-            <p>An email with a verification code was just sent</p>
+            <h2 class="text-center fw-light">Account Recovery</h2>
+            <p class=" text-center fw-light">An email with a verification code was just sent</p>
             <form action="<?= ROOT."users/code" ?>" method="POST">
                 <div>
                     <label for="code" class="form-label">Enter Code: <sup>*</sup></label>

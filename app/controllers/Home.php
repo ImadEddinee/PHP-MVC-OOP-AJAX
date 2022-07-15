@@ -14,7 +14,7 @@ class Home extends Controller{
             'title' => 'Home Page',
             'picture_description' => '',
             'checked_categories' => array(),
-            'categories' => $this->categoryModel->getAllCategories()
+            'categories' => $this->categoryModel->getUserCategory($_SESSION['user_id'])
         ];
         $this->view("home/index",$data);
     }

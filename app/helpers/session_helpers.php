@@ -27,6 +27,8 @@ function createUserSession($user){
     $_SESSION['username'] = $user[0]->username;
     if (!$user[0]->enabled){
         $_SESSION['enabled'] = false;
+    }else{
+        $_SESSION['enabled'] = true;
     }
 }
 function isLoggedIn(){

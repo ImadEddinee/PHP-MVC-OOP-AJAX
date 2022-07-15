@@ -31,7 +31,7 @@ class Pictures extends Controller
                 'title' => 'Home Page',
                 'picture_description' => trim($_POST['description']),
                 'checked_categories' => isset($_POST['categories']) ? $_POST['categories'] : array(),
-                'categories' => $this->categoryModel->getAllCategories()
+                'categories' => $this->categoryModel->getUserCategory($_SESSION['user_id'])
             ];
 
             $fileExt = explode(".", $_FILES['photo']['name']);
@@ -85,12 +85,13 @@ class Pictures extends Controller
         $post = $this->pictureModel->getPost($post_id)[0];
         // Get Post's categories
         $categories = $this->pictureModel->findPostCategory($post_id);
-        if (!$post_id || !$categories) {
+        if (!$post || !$categories) {
             die("Post id not found");
         }
         $data = [
             'title' => "Post details",
-            'post' => $post
+            'post' => $post,
+            'username' => $this->userModel->getUser($post->user_id)[0]->username
         ];
         // Get Category By Id
         foreach ($categories as $cat) {
@@ -118,7 +119,7 @@ class Pictures extends Controller
         if ($post->user_id == $_SESSION['user_id']) {
             if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 // Get all user's categories
-                $categories = $this->categoryModel->getAllCategories();
+                $categories = $this->categoryModel->getUserCategory($_SESSION['user_id']);
                 // Get all categories that are relevant to the post
                 $postCategories = $this->pictureModel->findPostCategory($post_id);
                 foreach ($postCategories as $cat) {

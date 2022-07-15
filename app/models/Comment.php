@@ -9,7 +9,7 @@ class Comment {
     }
 
     public function findCommentsByPostId($post_id){
-        $this->conn->query("SELECT * FROM comment WHERE post_id = ?");
+        $this->conn->query("SELECT * FROM comment WHERE picture_id = ?");
         $this->conn->execute($post_id);
         if ($this->conn->rowCount() > 0){
             return $this->conn->resultSet();
@@ -18,7 +18,7 @@ class Comment {
     }
 
     public function addComment($contenu,$post_id){
-        $this->conn->query("INSERT INTO comment (contenu, user_id, post_id) VALUES (?,?,?)");
+        $this->conn->query("INSERT INTO comment (contenu, user_id, picture_id) VALUES (?,?,?)");
         $this->conn->execute($contenu, $_SESSION['user_id'], $post_id);
     }
 

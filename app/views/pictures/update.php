@@ -48,7 +48,7 @@
             </div>
         </div>
         <div class="col-4">
-            <img width="450px" src='<?= ASSETS . $data['post']->fichier ?>' alt="photo">
+            <img width="450px" src='<?= ASSETS . $data['post']->photo ?>' alt="photo">
         </div>
     </div>
 </div>

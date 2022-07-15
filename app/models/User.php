@@ -27,6 +27,11 @@ class User {
         }
         return false;
     }
+    public function getUserByKeyword($key){
+        $this->conn->query("SELECT * FROM  user WHERE username LIKE '".$key."%' ");
+        $this->conn->execute();
+        return $this->conn->resultSet();
+    }
     //find user by username
     public function findUserByUsername($username){
         $this->conn->query("SELECT * FROM user WHERE username = ?");

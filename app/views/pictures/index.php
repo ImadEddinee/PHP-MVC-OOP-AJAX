@@ -9,11 +9,11 @@
                     <div class="row">
                         <div class="col-6">
                             <img width="250px"
-                                 src='<?= ASSETS . $data['post']->fichier?>'
+                                 src='<?= ASSETS . $data['post']->photo?>'
                                  alt="photo">
                         </div>
                         <div class="col-6" style="margin-top: 40px">
-                            <p class="fw-light">Propriétaire : <?= $data['post']->user_id; ?></p>
+                            <p class="fw-light">Propriétaire : <?= $data['username']; ?></p>
                             <p class="fw-light">Prise le : <?= $data['post']->created_at; ?></p>
                             <p class="fw-light">Modifier le : <?= $data['post']->updated_at; ?></p>
                             <p class="fw-light">Description : <?= $data['post']->description; ?></p>
@@ -53,6 +53,16 @@
                             </a>
                         </div>
                     </div>
+                    <?php else: ?>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="d-grid gap-2" style="margin-top: 5px">
+                                    <a></a>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                            </div>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>

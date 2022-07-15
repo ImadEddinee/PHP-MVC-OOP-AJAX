@@ -33,7 +33,7 @@ class Comments extends Controller{
         }
         if ($comment[0]->user_id == $_SESSION['user_id']) {
             $this->commentsModel->deleteComment($comment_id);
-            redirect("pictures/get/" . $comment[0]->post_id);
+            redirect("pictures/get/" . $comment[0]->picture_id);
         }
     }
 };

@@ -1,4 +1,5 @@
 <?php
+
 //Bootstrapping the application
 require_once '../app/bootstrap.php';
 
