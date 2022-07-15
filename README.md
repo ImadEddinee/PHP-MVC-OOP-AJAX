@@ -10,6 +10,7 @@ The project covers these programming concepts:
 * MVC Pattern
 * OOP
 * PDO
+* Asynchronous requests
 
 ## Technologies
 
