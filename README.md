@@ -28,6 +28,8 @@ The project covers these programming concepts:
 
 ![imgonline-com-ua-twotoone-XdGOTbRS9FXiY](https://user-images.githubusercontent.com/74471167/179285054-8060c7df-f210-4fe4-bb0a-6e3e324bf097.jpg)
 
+![Screenshot (114)](https://user-images.githubusercontent.com/74471167/179285846-911538ad-c6a8-4631-85b9-260472a5457a.png)
+
 ![imgonline-com-ua-twotoone-oBA3qK4SmNRwB](https://user-images.githubusercontent.com/74471167/179285083-2a00fa18-f1e5-4053-b3bb-e9bff686bccc.jpg)
 
 ![Screenshot (101)](https://user-images.githubusercontent.com/74471167/179285132-e611d91b-fd3b-4241-902b-4cad582a24b8.png)
@@ -46,6 +48,5 @@ The project covers these programming concepts:
 
 ![Screenshot (113)](https://user-images.githubusercontent.com/74471167/179285465-d7bde700-6be5-487e-8fc2-ea534c642abf.png)
 
-![Screenshot (114)](https://user-images.githubusercontent.com/74471167/179285846-911538ad-c6a8-4631-85b9-260472a5457a.png)
 
 
