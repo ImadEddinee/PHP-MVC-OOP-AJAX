@@ -10,15 +10,17 @@ The project covers these programming concepts:
 * MVC Pattern
 * OOP
 * PDO
-* Asynchronous requests
+* Asynchronous requests using AJAX
 
 ## Technologies
 
 * HTML
 * CSS   *Bootstrap*
-* Javascript   *Ajax*
+* Javascript  
+* AJAX
 * PHP
 * MySql
+
 
 ## Screenshots
 
