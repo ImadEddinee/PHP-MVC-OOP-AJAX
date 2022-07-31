@@ -11,6 +11,7 @@ The project covers these programming concepts:
 * OOP
 * PDO
 * Asynchronous requests using AJAX
+* Using Flash Messages
 
 ## Technologies
 
@@ -31,6 +32,8 @@ The project covers these programming concepts:
 ![imgonline-com-ua-twotoone-XdGOTbRS9FXiY](https://user-images.githubusercontent.com/74471167/179285054-8060c7df-f210-4fe4-bb0a-6e3e324bf097.jpg)
 
 ![Screenshot (114)](https://user-images.githubusercontent.com/74471167/179285846-911538ad-c6a8-4631-85b9-260472a5457a.png)
+
+Flash Messages
 
 ![imgonline-com-ua-twotoone-oBA3qK4SmNRwB](https://user-images.githubusercontent.com/74471167/179285083-2a00fa18-f1e5-4053-b3bb-e9bff686bccc.jpg)
 
