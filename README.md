@@ -66,6 +66,8 @@ The project covers these programming concepts:
 
 ![Screenshot (109)](https://user-images.githubusercontent.com/74471167/179285314-e7c88dd3-910e-4d51-868e-8f894d47ec76.png)
 
+#Option to comment and like or dislike a post 
+
 
 ![Screenshot (112)](https://user-images.githubusercontent.com/74471167/179285398-5fc3affb-8fd8-446c-973d-5821abeaedf6.png)
 
