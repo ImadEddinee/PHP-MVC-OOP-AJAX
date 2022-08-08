@@ -35,9 +35,9 @@ The project covers these programming concepts:
     
     ii>git clone https://github.com/ImadEddinee/PhotoShare.git
     
-4. open link localhost/phpmyadmin and import the database (photo_share.sql).
+4. open link localhost/phpmyadmin and import the database file (photo_share.sql).
 
-5. In the config file give your email and password
+5. In the config.php file give your email and password
        
               define('Email','<your email>');
               define('Password','<hashed password>');
