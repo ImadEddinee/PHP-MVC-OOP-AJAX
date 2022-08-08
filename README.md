@@ -38,8 +38,10 @@ The project covers these programming concepts:
 4. open link localhost/phpmyadmin and import the database (photo_share.sql).
 
 5. In the config file give your email and password
-              ```define('Email','<your email>');
-              define('Password','<hashed password>');```
+       
+              define('Email','<your email>');
+              define('Password','<hashed password>');
+              
 
 
 ## Screenshots
