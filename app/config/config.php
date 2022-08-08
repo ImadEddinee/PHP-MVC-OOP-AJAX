@@ -6,8 +6,8 @@ define('USER',"root");
 define('PASS',"");
 define('SITENAME',"Photo Share");
 
-define('Email','hajaliimadeddine@gmail.com');
-define('Password','oxtnqjbmkktbkzaa');
+define('Email','<your email>');
+define('Password','<hashed password>');
 
 define('APPROOT',dirname(dirname(__FILE__))).
 define('ROOT', "http://localhost/Photo-Share/");
