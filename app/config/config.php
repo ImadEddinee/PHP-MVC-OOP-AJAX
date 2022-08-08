@@ -6,6 +6,9 @@ define('USER',"root");
 define('PASS',"");
 define('SITENAME',"Photo Share");
 
+define('Email','hajaliimadeddine@gmail.com');
+define('Password','oxtnqjbmkktbkzaa');
+
 define('APPROOT',dirname(dirname(__FILE__))).
-define('ROOT', "http://localhost/PHP-MVC-OOP-AJAX/");
-define('ASSETS', "http://localhost/PHP-MVC-OOP-AJAX/public/");
+define('ROOT', "http://localhost/Photo-Share/");
+define('ASSETS', "http://localhost/Photo-Share/public/");

@@ -227,10 +227,10 @@ class Users extends Controller{
         $mail->SMTPSecure = 'ssl';
         $mail->Host = 'smtp.gmail.com';
         $mail->Port = '465';
-        $mail->Username = 'hajaliimadeddine@gmail.com';
-        $mail->Password = 'oxtnqjbmkktbkzaa';
+        $mail->Username = Email;
+        $mail->Password = Password;
         try {
-            $mail->setFrom("hajaliimadeddine@gmail.com");
+            $mail->setFrom(Email);
         } catch (\PHPMailer\PHPMailer\Exception $e) {
         }
         $mail->Subject = 'Code de verification';
