@@ -3,15 +3,16 @@
 Simple Website to share pictures and interact with other users
 
 
-## Concepts
+## Features
 
 The project covers these programming concepts:
 
 * MVC Pattern
 * OOP
-* PDO
+* PDO   *CRUD Operations*
 * Asynchronous requests using AJAX
 * Using Flash Messages
+* Using PHPMailer library
 
 ## Technologies
 
