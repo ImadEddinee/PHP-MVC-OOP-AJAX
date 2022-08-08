@@ -22,6 +22,25 @@ The project covers these programming concepts:
 * PHP
 * MySql
 
+## Installation
+
+
+1. Install XAMPP.
+
+2. Open XAMPP Control panal and start [apache] and [mysql] .
+
+3. follow gitbash commands
+    
+    i>cd C:\\xampp\htdocs\
+    
+    ii>git clone https://github.com/ImadEddinee/PhotoShare.git
+    
+4. open link localhost/phpmyadmin and import the database (photo_share.sql).
+
+5. In the config file give your email and password
+              ```define('Email','<your email>');
+              define('Password','<hashed password>');```
+
 
 ## Screenshots
 
